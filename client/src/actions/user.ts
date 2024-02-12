@@ -1,6 +1,7 @@
 import axios from "axios";
 import {setUser} from "../reducers/userReducer.ts";
 import {Dispatch} from "redux";
+import {checkErrors} from "./checkErrors.ts";
 
 
 export const registration = async (email: string, password: string) => {
@@ -11,11 +12,7 @@ export const registration = async (email: string, password: string) => {
        })
        alert(response.data.message)
    }catch (error){
-       let errorMessage = "Произошла ошибка";
-       if (axios.isAxiosError(error)) {
-           errorMessage = error?.response?.data.message;
-       }
-       alert(errorMessage)
+       checkErrors(error)
    }
 }
 
