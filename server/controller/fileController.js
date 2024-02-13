@@ -79,9 +79,7 @@ class FileController{
             await dbFile.save()
             await user.save()
 
-            res.json(dbFile)
-
-            return res.json(files)
+            return res.json(dbFile)
         }catch (e){
             console.log(e)
             return res.status(500).json({message: "Upload Error"})

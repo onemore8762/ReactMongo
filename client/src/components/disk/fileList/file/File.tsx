@@ -19,12 +19,14 @@ export const File = ({file}:PropsType) => {
     const dispatch = useAppDispatch()
     const currentDir = useAppSelector(state => state.files.currentDir)
     const openDirHandler = () => {
-        dispatch(pushToStack(currentDir))
-        dispatch(setCurrentDir(file._id))
+        if (file.type === 'dir'){
+            dispatch(pushToStack(currentDir))
+            dispatch(setCurrentDir(file._id))
+        }
     }
 
     return (
-        <div className={cls.file} onClick={file.type === 'dir' ? () => openDirHandler(): () => {}}>
+        <div className={cls.file} onClick={ () => openDirHandler()}>
             <img src={file.type === 'dir' ? dirLogo : fileLogo} alt="" className={cls.img}/>
             <div className={cls.name}>{file.name}</div>
             <div className={cls.date}>{dayjs(file.date).format("DD-MM-YYYY")}</div>
