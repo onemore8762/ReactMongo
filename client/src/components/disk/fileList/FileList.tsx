@@ -1,9 +1,10 @@
 import cls from './FileList.module.scss'
-import {useSelector} from "react-redux";
 import {File} from "./file/File.tsx";
+import {useAppSelector} from "@/common/hooks/useAppSelector.ts";
 
 export const FileList = () => {
-    const files = useSelector(state => state.files.files).map(file => <File key={file._id} file={file}/>)
+    const files = useAppSelector(state => state.files.files)
+        .map?.(file => <File key={file._id} file={file}/>)
     return (
         <div className={cls.fileList}>
             <div className={cls.header}>

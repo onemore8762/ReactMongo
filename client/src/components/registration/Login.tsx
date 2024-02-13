@@ -2,13 +2,13 @@ import {useState} from 'react';
 import cls from './Authorization.module.scss'
 
 import {Input} from "../../utils/input/Input.tsx";
-import {useDispatch} from "react-redux";
-import {login} from "../../actions/user.ts";
+import {login} from "@/actions/user.ts";
+import {useAppDispatch} from "@/common/hooks/useAppDispatch.ts";
 
 export const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     return (
         <div className={cls.authorization}>

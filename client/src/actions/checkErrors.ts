@@ -5,5 +5,6 @@ export function checkErrors(error: never | unknown){
     if (axios.isAxiosError(error)) {
         errorMessage = error?.response?.data.message;
     }
-    alert(errorMessage)
+    console.log(errorMessage)
+    console.log(error)
 }

@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import cls from './Authorization.module.scss'
-import {registration} from "../../actions/user";
+import {registration} from "@/actions/user.ts";
 import {Input} from "../../utils/input/Input.tsx";
 
 export const Registration = () => {

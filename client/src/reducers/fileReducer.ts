@@ -1,17 +1,26 @@
-const SET_FILES = "SET_FILES"
-const SET_CURRENT_DIR = "SET_CURRENT_DIR"
+import {FileType} from "@/actions/file.ts";
 
 const defaultState = {
-    files: [],
-    currentDir: null
+    files: [] as FileType[],
+    currentDir: null as null | string,
+    popupDisplay: 'none' as string,
+    dirStack: [] as string[]
 }
 
-export default function fileReducer(state = defaultState, action: ActionsType){
+type stateType = typeof defaultState
+
+export default function fileReducer(state: stateType = defaultState, action: FileActionsType): stateType{
     switch (action.type){
-        case SET_FILES:
+        case "SET_FILES":
             return  {...state, files: action.payload}
-        case SET_CURRENT_DIR:
+        case "SET_CURRENT_DIR":
             return  {...state, currentDir: action.payload}
+        case "ADD_FILE":
+            return  {...state, files: [...state.files, action.payload]}
+        case "SET_POPUP_DISPLAY":
+            return  {...state, popupDisplay: action.payload }
+        case "PUSH_TO_STACK":
+            return  {...state, dirStack: [...state.dirStack, action.payload ]}
         default:
             return state
     }
@@ -19,8 +28,15 @@ export default function fileReducer(state = defaultState, action: ActionsType){
 
 
 
-export const setFiles = (files) => ({type: SET_FILES, payload: files})
-export const setCurrentDir = (dir) => ({type: SET_FILES, payload: dir})
+export const setFiles = (files: FileType[]) => ({type: "SET_FILES", payload: files} as const)
+export const setCurrentDir = (dir: string) => ({type: "SET_CURRENT_DIR", payload: dir} as const)
+export const addFile = (file: FileType) => ({type: "ADD_FILE", payload: file} as const)
+export const setPopupDisplay = (display: 'none' | 'flex') => ({type: "SET_POPUP_DISPLAY", payload: display} as const)
+export const pushToStack = (dir: string | null) => ({type: "PUSH_TO_STACK", payload: dir as string} as const)
 
-type ActionsType = ReturnType<typeof setFiles>
+export type FileActionsType =
+    | ReturnType<typeof setFiles>
     | ReturnType<typeof setCurrentDir>
+    | ReturnType<typeof addFile>
+    | ReturnType<typeof setPopupDisplay>
+    | ReturnType<typeof pushToStack>

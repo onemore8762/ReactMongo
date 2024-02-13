@@ -1,7 +1,7 @@
 import axios from "axios";
 import {checkErrors} from "./checkErrors.ts";
 import {Dispatch} from "redux";
-import {setFiles} from "@/reducers/fileReducer.ts";
+import {addFile, setFiles} from "@/reducers/fileReducer.ts";
 
 export interface FileType {
     _id: string
@@ -15,17 +15,40 @@ export interface FileType {
     __v: number
 }
 
-export function getFiles(dirId){
+export function getFiles(dirId: string | null) {
     return async (dispatch: Dispatch) => {
         try {
             const response = await axios.get<FileType[]>(`http://localhost:5001/api/files`, {
-                params: dirId || null,
+                params: {
+                    parent: dirId || null
+                },
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
             dispatch(setFiles(response.data))
-        }catch (error){
+        } catch (error) {
+            console.log('попал')
+            checkErrors(error)
+        }
+    }
+}
+
+export function createDir(dirId: string | null, name: string) {
+    return async (dispatch: Dispatch) => {
+        try {
+            const response = await axios.post(`http://localhost:5001/api/files`, {
+                name,
+                parent: dirId,
+                type: 'dir'
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
+            dispatch(addFile(response.data))
+        } catch (error) {
             checkErrors(error)
         }
     }
