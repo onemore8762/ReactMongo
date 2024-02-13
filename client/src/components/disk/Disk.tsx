@@ -17,9 +17,7 @@ export const Disk = () => {
     }
 
     const backClickHandler = () => {
-        console.log(dirStack)
-        const backDirId = dirStack.pop()
-        console.log(dirStack)
+        const backDirId = dirStack.pop() as string
         dispatch(setCurrentDir(backDirId))
     }
 
